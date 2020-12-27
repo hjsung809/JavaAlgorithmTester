@@ -2,24 +2,24 @@ package testcode;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
-import excute.Testable;
+import excute.Executable;
 
-public class _9012 implements Testable{
+public class _9012 implements Executable{
 
 	@Override
-	public void main(InputStream in, OutputStream out) {
+	public void main(InputStream in, OutputStream out) throws Exception{
 		// TODO Auto-generated method stub
 		InputStreamReader isr = new InputStreamReader(in);
 		BufferedReader br = new BufferedReader(isr);
 		
 		OutputStreamWriter osw = new OutputStreamWriter(out);
 		BufferedWriter bw = new BufferedWriter(osw);
-		
 		
 		try {
 			String tmp = br.readLine();

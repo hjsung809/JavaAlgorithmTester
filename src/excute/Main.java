@@ -2,8 +2,13 @@ package excute;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 public class Main {
+	public static final String SOURCE_DIR = "src";
+	public static final String PAKAGE_NAME = "testcode";
+	public static final String TESTCASE_DIR = "testcase";
+	
 	// 1. 작성된 코드중, 가장 최근에 작성된 코드를 찾는다.
 	// 2. 컴파일 및 실행한다.
 	// 3. 테스트 케이스를 입력할지 선택 입력을 받는다.
@@ -15,16 +20,47 @@ public class Main {
 		String currentPath = System.getProperty("user.dir");
 //	    System.out.println("Current Directory : " + currentPath);
 		
-		Path javaFilePath = Paths.get(currentPath, "src", "testcode");
-		Path testCasePath = Paths.get(currentPath, "testcase");
-		
-	    RecentFileFinder recentFileFinder = new RecentFileFinder(javaFilePath);
-	    TestCaseManager testCaseManager = new TestCaseManager(testCasePath);
+		Path sourceCodeDir = Paths.get(currentPath, SOURCE_DIR, PAKAGE_NAME);
+		Path testcaseDir = Paths.get(currentPath, TESTCASE_DIR);
 	    
-	    Tester tester = new Tester(recentFileFinder, testCaseManager);
-	    if (!tester.excute()) {
+		// 초기화
+		FileFinder fileFinder = new RecentFileFinder(sourceCodeDir);
+		TestCaseManager testCaseManager = new TestCaseManager(testcaseDir);
+	    Executor executor = new Executor(PAKAGE_NAME);
+		
+		// 최근 변경 파일 찾기.
+	    if (!fileFinder.findFile()) {
+			System.out.println("파일 검색에 실패하였습니다.");
+			return;
+		}
+		String targetClassName = fileFinder.getClassName();
+		if (targetClassName == null) {
+			System.out.println("유효한 파일을 찾을 수 없습니다.");
+			return;
+		}
+		System.out.println("다음 파일을 실행합니다. [" + targetClassName + "]");
+		
+		// 테스트 케이스 경로 계산.
+		int validTestcaseCount = testCaseManager.countValidTestcase(targetClassName);
+		if (validTestcaseCount < 1) {
+			System.out.println("유효한 테스트 케이스가 하나도 없습니다.");
+			return;
+		}
+		List<Path> inputPaths = testCaseManager.getInputPaths(targetClassName, validTestcaseCount);
+		List<Path> outputPaths = testCaseManager.getOutputPaths(targetClassName, validTestcaseCount);
+		List<Path> answerPaths = testCaseManager.getAnswerPaths(targetClassName, validTestcaseCount);
+
+	    
+		// 실행
+	    if (!executor.excute(targetClassName, inputPaths, outputPaths)) {
 	    	System.out.println("실행에 실패하였습니다.");
 	    }
+	    
+	    // 결과 비교
+	    ResultComparator resultComparator = new ResultComparator();
+	    int successCount = resultComparator.compare(outputPaths, answerPaths);
+	    
+	    System.out.println("실행 결과 : " + successCount + "/" + validTestcaseCount);
 	}
 
 }
