@@ -1,4 +1,4 @@
-package excute;
+package tester;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -27,6 +27,7 @@ public class Main {
 		FileFinder fileFinder = new RecentFileFinder(sourceCodeDir);
 		TestCaseManager testCaseManager = new TestCaseManager(testcaseDir);
 	    Executor executor = new Executor(PAKAGE_NAME);
+	    TestcaseCrawler testcaseCrawler = new TestcaseCrawler(TestcaseCrawler.SITE.ACMICPC);
 		
 		// 최근 변경 파일 찾기.
 	    if (!fileFinder.findFile()) {
@@ -43,8 +44,13 @@ public class Main {
 		// 테스트 케이스 경로 계산.
 		int validTestcaseCount = testCaseManager.countValidTestcase(targetClassName);
 		if (validTestcaseCount < 1) {
-			System.out.println("유효한 테스트 케이스가 하나도 없습니다.");
-			return;
+			System.out.println("유효한 테스트 케이스가 없습니다.");
+			
+			Path crawlingPath = testCaseManager.getCrawlingPath(targetClassName);
+			validTestcaseCount = testcaseCrawler.crawlling(targetClassName, crawlingPath);
+			if(validTestcaseCount < 1) {
+				return;
+			}
 		}
 		List<Path> inputPaths = testCaseManager.getInputPaths(targetClassName, validTestcaseCount);
 		List<Path> outputPaths = testCaseManager.getOutputPaths(targetClassName, validTestcaseCount);

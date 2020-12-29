@@ -1,4 +1,4 @@
-package excute;
+package tester;
 
 
 import java.io.File;
@@ -14,7 +14,22 @@ public class TestCaseManager {
 	public TestCaseManager(Path testCasePath) {
 		this.testCasePath = testCasePath;
 		this.testCasedir = testCasePath.toFile();
+	}
+	
+	public Path getCrawlingPath(String targetClassName) {
+		if (!testCasedir.exists()) {
+			System.out.println("테스트 케이스 폴더가 없습니다.");
+			return null;
+		}
 		
+//		if(!targetClassName.startsWith("_")) {
+//			System.out.println("'_숫자' 형식의 클래스만 크롤링할 수 있습니다.");
+//			return null;
+//		}
+		
+		Path crawlingPath = Paths.get(testCasePath.toString(), targetClassName);
+		crawlingPath.toFile().mkdir();
+		return crawlingPath;
 	}
 	
 	//테스트 케이스 폴더가 존재하고 유효한지 체크.
@@ -23,11 +38,16 @@ public class TestCaseManager {
 			System.out.println("테스트 케이스 폴더가 없습니다.");
 			return 0;
 		}
+		
+		if (!Paths.get(testCasePath.toString(), targetClassName).toFile().exists()) {
+			System.out.println("테스트 케이스 폴더에 해당 클래스의 데이터가 없습니다.");
+			return 0;
+		}
 
 		for (int i = 1; true; i++) {
 			// 인풋 파일과 정답 파일.
-			Path targetInputPath = Paths.get(testCasePath.toString(), targetClassName, i + "_input.txt");
-			Path targetAnswerPath = Paths.get(testCasePath.toString(), targetClassName, i + "_answer.txt");
+			Path targetInputPath = Paths.get(testCasePath.toString(), targetClassName, String.valueOf(i), "input.txt");
+			Path targetAnswerPath = Paths.get(testCasePath.toString(), targetClassName, String.valueOf(i), "answer.txt");
 
 			File targetInputFile = targetInputPath.toFile();
 			File targetAnswerFile = targetAnswerPath.toFile();
@@ -48,7 +68,7 @@ public class TestCaseManager {
 		List<Path> inputPaths = new ArrayList<Path>();
 		
 		for (int i = 1; i <= num; i++) {
-			Path targetInputPath = Paths.get(testCasePath.toString(), targetClassName, i + "_input.txt");
+			Path targetInputPath = Paths.get(testCasePath.toString(), targetClassName, String.valueOf(i), "input.txt");
 			File targetInputFile = targetInputPath.toFile();
 			if (!targetInputFile.exists()) {
 				break;
@@ -62,7 +82,7 @@ public class TestCaseManager {
 		List<Path> answerPaths = new ArrayList<Path>();
 		
 		for (int i = 1; i <= num; i++) {
-			Path targetAnswerPaths = Paths.get(testCasePath.toString(), targetClassName, i + "_answer.txt");
+			Path targetAnswerPaths = Paths.get(testCasePath.toString(), targetClassName, String.valueOf(i), "answer.txt");
 			File targetAnswerFile = targetAnswerPaths.toFile();
 			if (!targetAnswerFile.exists()) {
 				break;
@@ -76,7 +96,7 @@ public class TestCaseManager {
 		List<Path> outputPaths = new ArrayList<Path>();
 		
 		for (int i = 1; i <= num; i++) {
-			Path targetOutputPath = Paths.get(testCasePath.toString(), targetClassName, i + "_output.txt");
+			Path targetOutputPath = Paths.get(testCasePath.toString(), targetClassName, String.valueOf(i), "output.txt");
 			outputPaths.add(targetOutputPath);
 		}
 		return outputPaths;

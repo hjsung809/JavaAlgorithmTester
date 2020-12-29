@@ -1,4 +1,4 @@
-package excute;
+package tester;
 
 public interface FileFinder {
 	boolean findFile();

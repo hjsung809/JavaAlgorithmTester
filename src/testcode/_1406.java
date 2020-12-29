@@ -9,7 +9,7 @@ import java.io.OutputStreamWriter;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import excute.Executable;
+import tester.Executable;
 
 
 public class _1406 implements Executable{
@@ -25,6 +25,7 @@ public class _1406 implements Executable{
 		for(int i = 0; i < line.length(); i++) {
 			list.add(line.charAt(i));
 		}
+		
 		int n = Integer.parseInt(br.readLine());
 			
 		ListIterator<Character> cursor = list.listIterator(list.size());

@@ -9,7 +9,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.Stack;
 
-import excute.Executable;
+import tester.Executable;
 
 
 public class _1874 implements Executable{
