@@ -30,7 +30,6 @@ public class _1406 implements Executable{
 			
 		ListIterator<Character> cursor = list.listIterator(list.size());
 		
-		
 		for(int i = 0; i < n; i++) {
 			String command = br.readLine();
 			

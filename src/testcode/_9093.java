@@ -21,7 +21,6 @@ public class _9093 implements Executable{
 		OutputStreamWriter osw = new OutputStreamWriter(out);
 		BufferedWriter bw = new BufferedWriter(osw);
 		
-		
 		try {
 			String str = br.readLine();
 			String[] words;

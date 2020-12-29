@@ -20,7 +20,6 @@ public class _1874 implements Executable{
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
 		
-		
 		int n;
 		int c = 1;
 		Stack<Integer> stack = new Stack<>();
