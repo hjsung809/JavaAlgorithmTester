@@ -6,6 +6,8 @@
 
 현재 이클립스에 의존적으로(컴파일 등) 실행가능한 상태입니다.
 
+(또한, JDK 11.0.9 환경에서 개발되었습니다.)
+
 ![image](https://user-images.githubusercontent.com/43060547/103292817-ed4c8500-4a31-11eb-88dc-094cf02a39be.png)
 
 
