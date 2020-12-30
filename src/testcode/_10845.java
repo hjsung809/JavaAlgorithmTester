@@ -7,18 +7,15 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayDeque;
 import java.util.Deque;
-import java.util.LinkedList;
-//import java.util.LinkedList;
-import java.util.StringTokenizer;
 
 import tester.Executable;
 
 public class _10845 implements Executable{
-	
 	public void main(InputStream in, OutputStream out) throws Exception{
 		// TODO Auto-generated method stub
 		BufferedReader br = new BufferedReader(new InputStreamReader(in));
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+		
 		Deque<String> queue = new ArrayDeque<String>();
 //		LinkedList<String> queue = new LinkedList<>();
 		

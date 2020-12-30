@@ -2,6 +2,7 @@ package tester;
 
 import java.io.File;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class RecentFileFinder implements FileFinder{
 	Path targetPath;
@@ -73,6 +74,22 @@ public class RecentFileFinder implements FileFinder{
 		}
 		
 		return fileName.substring(0, fileName.length() - 5);
+	}
+
+	@Override
+	public Path getPath() {
+		String fileName = getFileName();
+		
+		if (fileName == null) {
+			return null;
+		}
+		
+		if (!fileName.endsWith(".java")) {
+			System.out.println("자바 클래스 파일이 아닙니다.");
+		}
+		
+		// TODO Auto-generated method stub
+		return Paths.get(targetPath.toString(), fileName);
 	}
 
 }
