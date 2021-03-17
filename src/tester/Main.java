@@ -67,13 +67,14 @@ public class Main {
 		System.out.println("실행 결과 : " + successCount + "/" + validTestcaseCount + "\n");
 		
 		// 전부 맞았을 때, 코드 변환.
-		if(successCount == validTestcaseCount) {
-			SubmissionCodeGenerator submissionCodeGenerator = new SubmissionCodeGenerator();
-			if (!submissionCodeGenerator.generate(fileFinder.getPath(), Paths.get(currentPath, "submit_code.txt"))) {
-				System.out.println("코드변환에 문제가 발견되었습니다.");
-			} else {
-				System.out.println("코드 변환이 완료되었습니다. 제출해 보세요!");
-			}
+//		if(successCount == validTestcaseCount) {
+//			
+//		}
+		SubmissionCodeGenerator submissionCodeGenerator = new SubmissionCodeGenerator();
+		if (!submissionCodeGenerator.generate(fileFinder.getPath(), Paths.get(currentPath, "submit_code.txt"))) {
+			System.out.println("코드변환에 문제가 발견되었습니다.");
+		} else {
+			System.out.println("코드 변환이 완료되었습니다. 제출해 보세요!");
 		}
 	}
 

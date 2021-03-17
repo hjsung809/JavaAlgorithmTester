@@ -10,9 +10,14 @@ public class SubmissionCodeGenerator {
 	private final String importInterfacePattern = "import\\s+tester\\.(\\w|\\.)+;\\n";
 	private final String classNamePattern = "public\\s+class\\s+(\\w|_)+\\s+implements\\s+Executable";
 	private final String overridePattern = "@Override\\s*\n";
-	private final String methodNamePattern = "public\\s+void\\s+main\\s*\\((\\w|\\s|,)+\\)";
-	private final String inPattern = "\\s*\\(\\s*in\\s*\\)\\s*";
-	private final String outPattern = "\\s*\\(\\s*out\\s*\\)\\s*";
+	private final String mainMethodNamePattern = "public\\s+void\\s+main\\s*\\((\\w|\\s|,)+\\)";
+//	private final String instanceNamePattern = "(^(?!static).\\s+)+";
+	static public int a;
+	final static public int b = 1;
+	
+	private final String inPattern = "(\\r|\\n|\\s|\\t|\\v|\\()(in)(\\W)";
+	private final String outPattern = "(\\r|\\n|\\s|\\t|\\v|\\()(out)(\\W)";
+
 	
 //	public static void main(String[] args) {
 //		String SOURCE_DIR = "src";
@@ -31,6 +36,7 @@ public class SubmissionCodeGenerator {
 //			System.out.println("실패!");
 //		}
 //	}
+	
 	
 	public boolean generate(Path targetFilePath, Path destPath) {
 		if (!targetFilePath.toFile().exists()) {
@@ -65,15 +71,20 @@ public class SubmissionCodeGenerator {
 				System.out.println("오버라이딩 부분을 찾지 못했습니다.");
 //				cleanSuccess = false;
 			}
-			if (!replace(sb, methodNamePattern, "public static void main(String[] args)")) {
+			if (!replace(sb, mainMethodNamePattern, "public static void main(String[] args)")) {
 				System.out.println("메소드 부분을 찾지 못했습니다.");
 				cleanSuccess = false;
 			}
-			if (!replace(sb, inPattern, "(System.in)")) {
+//			if (!replace(sb, instanceNamePattern, "public static void main(String[] args)")) {
+//				System.out.println("메소드 부분을 찾지 못했습니다.");
+//				cleanSuccess = false;
+//			}
+			if (!replaceGroup(sb, inPattern, 2, "System.in")) {
+				
 				System.out.println("in 부분을 찾지 못했습니다.");
 				cleanSuccess = false;
 			}
-			if (!replace(sb, outPattern, "(System.out)")) {
+			if (!replaceGroup(sb, outPattern, 2, "System.out")) {
 				System.out.println("out 부분을 찾지 못했습니다.");
 				cleanSuccess = false;
 			}
@@ -105,23 +116,22 @@ public class SubmissionCodeGenerator {
 		return replaced;
 	}
 	
-//	private boolean replaceParameter(StringBuffer sb, String regex, String alter) {
-//		boolean replaced = false;
-//		try {
-//			Pattern pattern = Pattern.compile(regex);
-//			Matcher matcher = pattern.matcher(sb);
-//
-//			while (matcher.find()) {
-//				matcher.group();
-//				sb.replace(matcher.start(), matcher.end(), alter);
-//				replaced = true;
-//				matcher = pattern.matcher(sb);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return false;
-//		}
-//
-//		return replaced;
-//	}
+	private boolean replaceGroup(StringBuffer sb, String regex,int groupNumber, String alter) {
+		boolean replaced = false;
+		try {
+			Pattern pattern = Pattern.compile(regex);
+			Matcher matcher = pattern.matcher(sb);
+
+			while (matcher.find()) {
+				sb.replace(matcher.start(groupNumber), matcher.end(groupNumber), alter);
+				replaced = true;
+				matcher = pattern.matcher(sb);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
+
+		return replaced;
+	}
 }
