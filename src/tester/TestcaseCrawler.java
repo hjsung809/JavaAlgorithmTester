@@ -1,12 +1,12 @@
 package tester;
 
-import java.io.FileOutputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
+import java.io.FileOutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 public class TestcaseCrawler {
 	public static enum SITE {

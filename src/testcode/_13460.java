@@ -1,11 +1,13 @@
+package testcode;
 
+import tester.Executable;
 
 import java.io.*;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
 
-public class Main {
+public class _13460 implements Executable {
     static int n, m;
     static char[][] arr;
     static int[][][][] check;
@@ -113,9 +115,10 @@ public class Main {
         return -1;
     }
 
-        public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    @Override
+    public void main(InputStream in, OutputStream out) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(in));
+        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
         String[] nm = br.readLine().split(" ");
         n = Integer.parseInt(nm[0]);
         m = Integer.parseInt(nm[1]);
